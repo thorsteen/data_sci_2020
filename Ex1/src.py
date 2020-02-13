@@ -31,7 +31,7 @@ with open('news_sample.csv', newline='') as csvfile:
     data = csv.reader(csvfile)
     head = data.__next__()
     content = str(head).find('content')
-    print(content)
     for row in data:
-        row[5] = clean(row[5], lower=True, no_line_breaks=True, no_urls=True, no_numbers=True, replace_with_number="<NUM>" , replace_with_url="<URL>")
-        
+        row[5] = clean(row[5], lower=True, no_line_breaks=True, no_urls=True, replace_with_url="<URL>")
+        row[5] = clean(row[5], no_numbers=True, replace_with_number="<NUM>", no_punct=True)
+        print(row[5])
