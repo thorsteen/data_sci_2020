@@ -22,19 +22,16 @@
 #datetime - for date/time conversions (https://docs.python.org/3/library/datetime.html)
 
 
-import numpy as np
-import pandas as pd
-import nltk
-
-data = pd.read_csv("news_sample.txt", ",")
-
-data.head()
-
-for col in data.columns: 
-    print(col) 
-
-for content in range(len(data['content'])):
-    data.content[content] = data.content[content].lower()
-    data.content[content] = nltk.word_tokenize(data.content[content])    
-
-print(data['content'])
+import csv
+import datetime
+import urllib.request
+import urllib.error
+from cleantext import clean
+with open('news_sample.csv', newline='') as csvfile:
+    data = csv.reader(csvfile)
+    head = data.__next__()
+    content = str(head).find('content')
+    print(content)
+    for row in data:
+        row[5] = clean(row[5], lower=True, no_line_breaks=True, no_urls=True, no_numbers=True, replace_with_number="<NUM>" , replace_with_url="<URL>")
+        
