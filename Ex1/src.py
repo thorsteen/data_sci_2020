@@ -20,14 +20,15 @@
 #You will want to use the following python packages for performing these tasks:
 #clean-text - for cleaning the text (https://pypi.org/project/clean-text/)
 #datetime - for date/time conversions (https://docs.python.org/3/library/datetime.html)
-
+import pandas as pd
+pd.read_csv("news_sample.csv")
 
 import csv
 import datetime
 import urllib.request
 import urllib.error
 from cleantext import clean
-with open('news_sample.csv', newline='') as csvfile:
+with open('news_sample.txt', newline='') as csvfile:
     data = csv.reader(csvfile)
     head = data.__next__()
     content = str(head).find('content')
