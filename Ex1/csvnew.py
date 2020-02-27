@@ -26,40 +26,52 @@ import csv
 import datetime
 import urllib.request
 import urllib.error
+import nltk
 from cleantext import clean
+import re
+import pandas as pd
 
 
-def change_date(content):
-    date_patterns = ["%d-%m-%Y", "%Y-%m-%d", "%m-%Y-%d"]
-
+def change_date(word):
+    date_patterns = ['(\d+[-/]\d+[-/]\d+)']
     for pattern in date_patterns:
         try:
             #check that the pattern can be transformed
-            #insert code to change pattern to <DATE>
-            pattern = "<DATE>"
+            re.sub(pattern, "<DATE>", word)
         except:
-            pattern
-
+            return
+            
 with open('news_sample.csv', newline='') as csvfile:
     contentIdx = 0
-    data = csv.reader(csvfile)
-    head = data.__next__()
+    file = csv.reader(csvfile)
+    head = file.__next__()
     for i in range(len(head)):
         if str(head[i]) == "content":
             contentIdx = i
     print(contentIdx)
+    data = ""
     
-    for row in data:
+    for row in file:
         content = row[contentIdx]
-
-        content = clean(content, lower=True, no_line_breaks=True, no_urls=True, replace_with_url="<URL>", no_punct=True)
+        content = clean(content, lower=True, no_line_breaks=True, no_urls=True, replace_with_url=" <URL> ", no_punct=True)
         content = content.split()
-        for item in content:
-            try:
-                datetime.datetime.strptime(item,"%m-%Y-%d")
-                item = "<DATE>"
-            except:
-                pass
-        content = clean(content, no_numbers=True, replace_with_number="<NUM>")
-        row[contentIdx] = content 
-        print(content)
+        #newContent = ""
+        #for item in content:
+        #    newContent += change_date(item) + " "
+        change_date(content)
+            
+        content = clean(content, no_numbers=True, replace_with_number=" <NUM> ")
+        data += content
+        row[contentIdx] = content
+        print(data)
+    
+    #hvis man vil tælle ord
+    #data_tokens = nltk.word_tokenize(data)
+    #freq = nltk.FreqDist(data_tokens)
+    #print(freq.elements)
+
+#split csv fil op i tilsvarerende tabeller i sql database
+#https://www.postgresql.org/docs/9.2/sql-copy.html 
+
+#df = pd.DataFrame(csvfile)#df = pd.DataFrame(csvfile)
+#dele df op...
