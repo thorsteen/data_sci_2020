@@ -86,12 +86,8 @@ with open('news_sample.csv', newline='') as csvfile:
     keyword = dict()   
     article = dict()
 
-
-    
-
     data = list(csv.reader(csvfile))
     data = np.array(data)
-    
     
     authorList = data[:,authorIdx]
     temp = []
@@ -102,15 +98,15 @@ with open('news_sample.csv', newline='') as csvfile:
     temp = list(set(temp))
     putinDic(author, temp)
     
-    #tempKeywords = data[:,meta_keywordsIdx]
-    #print(tempKeywords)
-    #keywords = []
-    #for words in tempKeywords:
-    #    keywords.append(words.split(", "))
-    #print(keywords)
-    #keywords = set(keywords)
-    #print(keywords)
-    
+    tempKeywords = data[:,meta_keywordsIdx]
+    keywords = []
+    for words in tempKeywords:
+        temp = re.split(r'[;,"\'\[\]]\s*', words)
+        for word in temp:
+            keywords.append(word)
+    keywords = list(set(keywords))
+    putinDic(keyword,keywords)
+
     domains = list(set(data[:,domainIdx]))
     putinDic(domain,domains)
 
