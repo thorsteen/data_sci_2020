@@ -110,9 +110,13 @@ with open('news_sample.csv', newline='') as csvfile:
     domains = list(set(data[:,domainIdx]))
     putinDic(domain,domains)
 
-    typs = list(set(data[:,domainIdx]))
+    typs = list(set(data[:,typeIdx]))
     putinDic(typ,typs)
-    
+
+    for item in author.items():
+        print("Author: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+
+
     #for row in file:
      #   for i in range(len(row)):
             #if i == idIdx:
