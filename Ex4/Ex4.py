@@ -124,18 +124,29 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     putinDic(typ,typs)
 
     #example of how to extract and print data from dictionaries, to be used for riding into .csv files
+    file = open("author_entity.csv","w+")
+    file.write("author_id,author_key\n")
     for item in author.items():
-        print("Author: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
+    file.close
     
+    file = open("keyword_entity.csv","w+")
+    file.write("keyword_id,keyword\n")
     for item in keyword.items():
-        print("Keyword: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
+    file.close
     
+    file = open("domain_entity.csv","w+")
+    file.write("domain_id,domain_url\n")
     for item in domain.items():
-        print("Domain: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
+    file.close
     
+    file = open("type_entity.csv","w+")
+    file.write("type_id,type_name\n")
     for item in typ.items():
-        print("Type: %-35s has id: %4s" %(str(item[0]), str(item[1])))
-
+        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
+    file.close
 #split csv filer op i tilsvarerende tabeller i sql database
 #Keyword(keyword_id,keyword) 
 #Author(author_id,author_name) 
