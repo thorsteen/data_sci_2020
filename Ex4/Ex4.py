@@ -33,24 +33,6 @@ def simpleEntityToCSV(filename, idName, keyName, dictionary):
     file.close
      
 with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
-    #initializes indexes for later extraction
-    idIdx = 0
-    domainIdx = 0
-    typeIdx = 0
-    urlIdx = 0
-    contentIdx = 0
-    scraped_atIdx = 0
-    inserted_atIdx = 0
-    updated_atIdx = 0
-    titleIdx = 0
-    authorsIdx = 0
-    keywordsIdx = 0
-    meta_keywordsIdx = 0
-    meta_descriptionIdx = 0
-    tagsIdx = 0
-    summaryIdx = 0
-    authorID = 0
-
     #This initializes the dictionary
     author = dict()
     domain = dict() 
@@ -59,41 +41,26 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     article = dict()
 
     #opens file and reads header into head
-    csvfile = csv.reader(csvfile)
-    head = csvfile.__next__()
+    file = csv.reader(csvfile)
+    head = file.__next__()
     
     #Finds indexes of columns 
     for i in range(len(head)):
-        if str(head[i]) == "id": #identification given to each article
-            idIdx = i
-        elif str(head[i]) == "domain": #simple form of the url
-            domainIdx = i
-        elif str(head[i]) == "type": #how reliable the source is
-            typeIdx = i
-        elif str(head[i]) == "url": #link to article itself
-            urlIdx = i
-        elif str(head[i]) == "content": #all the juice of the article
-            contentIdx = i
-        elif str(head[i]) == "scraped_at": #date of 
-            scraped_atIdx = i
-        elif str(head[i]) == "inserted_at":
-            inserted_atIdx = i
-        elif str(head[i]) == "updated_at":
-            updated_atIdx = i
-        elif str(head[i]) == "title":
-            titleIdx = i
-        elif str(head[i]) == "authors": #who made this source
-            authorIdx = i
-        elif str(head[i]) == "keywords":
-            keywordsIdx = i
-        elif str(head[i]) == "meta_keywords":
-            meta_keywordsIdx = i
-        elif str(head[i]) == "meta_description":
-            meta_descriptionIdx = i
-        elif str(head[i]) == "tags":
-            tagsIdx = i
-        elif str(head[i]) == "summary":
-            summaryIdx = i
+        if   str(head[i]) == "id":                  idIdx = i               #identification given to each article
+        elif str(head[i]) == "domain":              domainIdx = i           #simple form of the url
+        elif str(head[i]) == "type":                typeIdx = i             #how reliable the source is
+        elif str(head[i]) == "url":                 urlIdx = i              #link to article itself
+        elif str(head[i]) == "content":             contentIdx = i          #all the juice of the article
+        elif str(head[i]) == "scraped_at":          scraped_atIdx = i       #date of 
+        elif str(head[i]) == "inserted_at":         inserted_atIdx = i
+        elif str(head[i]) == "updated_at":          updated_atIdx = i
+        elif str(head[i]) == "title":               titleIdx = i
+        elif str(head[i]) == "authors":             authorIdx = i           #who made this source
+        elif str(head[i]) == "keywords":            keywordsIdx = i         #always empty
+        elif str(head[i]) == "meta_keywords":       meta_keywordsIdx = i    #real keywords
+        elif str(head[i]) == "meta_description":    meta_descriptionIdx = i
+        elif str(head[i]) == "tags":                tagsIdx = i
+        elif str(head[i]) == "summary":             summaryIdx = i
 
     #converts csv.reader type to 2d array
     data = np.array(list(csv.reader(csvfile)))
