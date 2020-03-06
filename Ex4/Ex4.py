@@ -17,13 +17,20 @@ def change_date(word):
             return
 
 def putinDic(dictionary, liste):
-    #liste = liste.split(", ") #split on something here or have it premade
-    #print(liste)
+    liste = list(set(liste))
+    liste.sort()
     ID = 0
     for j in range(len(liste)):
         info = str(liste[j])
         dictionary[info] = ID
         ID += 1
+
+def simpleEntityToCSV(filename, idName, keyName, dictionary):
+    file = open(filename,"w+")
+    file.write("%s,%s\n" % (idName, keyName))
+    for item in dictionary.items():
+        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
+    file.close
      
 with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     #initializes indexes for later extraction
@@ -52,8 +59,8 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     article = dict()
 
     #opens file and reads header into head
-    file = csv.reader(csvfile)
-    head = file.__next__()
+    csvfile = csv.reader(csvfile)
+    head = csvfile.__next__()
     
     #Finds indexes of columns 
     for i in range(len(head)):
@@ -98,8 +105,6 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
         something = i.split(", ")
         for j in something:
             temp.append(j)
-    temp = list(set(temp))
-    temp.sort()
     putinDic(author, temp)
     
     #fills metaKeywords into author dictionary, sort to make sure they get the same id every time the code is run
@@ -109,49 +114,25 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
         temp = re.split(r'[;,"\'\[\]]\s*', words)
         for word in temp:
             keywords.append(word)
-    keywords = list(set(keywords))
-    keywords.sort()
     putinDic(keyword,keywords)
 
     #fills domains into author dictionary, sort to make sure they get the same id every time the code is run
-    domains = list(set(data[:,domainIdx]))
-    domains.sort()
-    putinDic(domain,domains)
+    putinDic(domain,data[:,domainIdx])
 
     #fills types into author dictionary, sort to make sure they get the same id every time the code is run
-    typs = list(set(data[:,typeIdx]))
-    typs.sort()
-    putinDic(typ,typs)
+    putinDic(typ,data[:,typeIdx])
 
     #example of how to extract and print data from dictionaries, to be used for riding into .csv files
-    file = open("author_entity.csv","w+")
-    file.write("author_id,author_key\n")
-    for item in author.items():
-        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
-    file.close
-    
-    file = open("keyword_entity.csv","w+")
-    file.write("keyword_id,keyword\n")
-    for item in keyword.items():
-        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
-    file.close
-    
-    file = open("domain_entity.csv","w+")
-    file.write("domain_id,domain_url\n")
-    for item in domain.items():
-        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
-    file.close
-    
-    file = open("type_entity.csv","w+")
-    file.write("type_id,type_name\n")
-    for item in typ.items():
-        file.write("%s,%s\n" %(str(item[1]), str(item[0])))
-    file.close
+    simpleEntityToCSV("author_entity.csv", "author_id", "author_name", author)
+    simpleEntityToCSV("keyword_entity.csv", "keyword_id", "keyword", keyword)
+    simpleEntityToCSV("domain_entity.csv", "domain_id", "domain_url", domain)
+    simpleEntityToCSV("type_entity.csv", "type_id", "type_name", typ)
+
 #split csv filer op i tilsvarerende tabeller i sql database
-#Keyword(keyword_id,keyword) 
-#Author(author_id,author_name) 
-#Domain(domain_id, domain_url) 
-#Type(type_id,type_name) 
+#Keyword(keyword_id,keyword) done 
+#Author(author_id,author_name) done 
+#Domain(domain_id, domain_url) done 
+#Type(type_id,type_name) done 
 #Article(article_id, title, content, summary, meta_description, type_id, inserted_at, updated_at, scaped_at)
 #Webpage(url,article_id,domain_id) 
 #Tags(article_id, keyword_id) 
