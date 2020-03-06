@@ -1,3 +1,5 @@
+# TASK: you will have to perform the following steps to create a clean version of the data
+
 #1. Read the CSV file
 #2. In the content field, do the following:
 #- Tokenize and lower-case the text (end result should be an array of tokens where each token is a lexical unit or a punctuation). For example, “He said: ‘Don’t go there!’” => (he, said, :, ‘, don’t, go, there, !, ‘)
@@ -14,8 +16,6 @@
 #- counting the number of numeric values in the data
 #- determining the 100 more frequent words that appear in the data
 #- plotting the frequency of the 10000 most occuring words (do you seen any interesting patterns?)
-
-#If you don't yet have a working copy of Python of our computer, please see the exercises from last week. We recommend using Anaconda with Python 3.* (https://docs.conda.io/en/latest/miniconda.html).
 
 #You will want to use the following python packages for performing these tasks:
 #clean-text - for cleaning the text (https://pypi.org/project/clean-text/)
