@@ -26,6 +26,7 @@ def putinDic(dictionary, liste):
         ID += 1
      
 with open('news_sample.csv', newline='') as csvfile:
+    #initializes indexes for later extraction
     idIdx = 0
     domainIdx = 0
     typeIdx = 0
@@ -43,9 +44,18 @@ with open('news_sample.csv', newline='') as csvfile:
     summaryIdx = 0
     authorID = 0
 
+    #This initializes the dictionary
+    author = dict()
+    domain = dict() 
+    typ = dict()
+    keyword = dict()   
+    article = dict()
+
+    #opens file and reads header into head
     file = csv.reader(csvfile)
     head = file.__next__()
-    #NULL,id,domain,type,url,content,scraped_at,inserted_at,updated_at,title,authors,keywords,meta_keywords,meta_description,tags,summary
+    
+    #Finds indexes of columns 
     for i in range(len(head)):
         if str(head[i]) == "id": #identification given to each article
             idIdx = i
@@ -77,18 +87,12 @@ with open('news_sample.csv', newline='') as csvfile:
             tagsIdx = i
         elif str(head[i]) == "summary":
             summaryIdx = i
-    
 
-    #This initializes the dictionary
-    author = dict()
-    domain = dict() 
-    typ = dict()
-    keyword = dict()   
-    article = dict()
-
+    #converts csv.reader type to 2d array
     data = list(csv.reader(csvfile))
     data = np.array(data)
     
+    #fills authors into author dictionary
     authorList = data[:,authorIdx]
     temp = []
     for i in authorList:
@@ -98,6 +102,7 @@ with open('news_sample.csv', newline='') as csvfile:
     temp = list(set(temp))
     putinDic(author, temp)
     
+    #fills metaKeywords into author dictionary
     tempKeywords = data[:,meta_keywordsIdx]
     keywords = []
     for words in tempKeywords:
@@ -107,56 +112,17 @@ with open('news_sample.csv', newline='') as csvfile:
     keywords = list(set(keywords))
     putinDic(keyword,keywords)
 
+    #fills domains into author dictionary
     domains = list(set(data[:,domainIdx]))
     putinDic(domain,domains)
 
+    #fills types into author dictionary
     typs = list(set(data[:,typeIdx]))
     putinDic(typ,typs)
 
+    #example of how to extract and print data from dictionaries, to be used for riding into .csv files
     for item in author.items():
         print("Author: %-35s has id: %4s" %(str(item[0]), str(item[1])))
-
-
-    #for row in file:
-     #   for i in range(len(row)):
-            #if i == idIdx:
-            #    print(row[i])
-            #elif i == domainIdx:
-            #    domains = row[i].split(".")
-            #    print(domains)
-            #    for j in range(len(domains)):
-            #        domainName = str(domains[j])
-            #        domain[domainName] = domainID
-            #        domainID += 1
-            #elif i == typeIdx:
-            #elif str(head[i]) == "url": #link to article itself`
-            #elif i == contentIdx:
-            #    content = row[contentIdx]
-            #    content = clean(content, lower=True, no_line_breaks=True, no_urls=True, replace_with_url=" <URL> ", no_punct=True)
-            #    content = content.split()
-            #    #newContent = ""
-            #    #for item in content:
-            #    #    newContent += change_date(item) + " "
-            #    change_date(content)
-            #        
-            #    content = clean(content, no_numbers=True, replace_with_number=" <NUM> ")
-            #    row[contentIdx] = content
-            #elif i == scraped_atIdx:
-            #elif i == inserted_atIdx:
-            #elif i == updated_atIdx:
-            #elif i == titleIdx:
-            #elif i == authorIdx: 
-            #    authors = row[i].split(", ")
-            #    for j in range(len(authors)):
-            #        authorName = str(authors[j])
-            #        author[authorName] = authorID
-            #        authorID += 1
-            #elif i == keywordsIdx:
-            #elif i == meta_descriptionIdx
-            #elif i == tagsIdx:
-            #elif i == summaryIdx:
-    
-
 
 #split csv filer op i tilsvarerende tabeller i sql database
 #Keyword(keyword_id,keyword) 

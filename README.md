@@ -4,13 +4,16 @@ Dedicated to DataScience exercises and assignments.
 
 ## Todo
 
-
+* Clean content using regex
+* Write simple entity sets to .csv files 
+* Prepare relation sets
+* Make article entity set
 
 ## Authors
 
 * **Thor Steen Larsen**
-* **Marcus Thorn Mathiesen**
 * **Christian Arboe Franck**
+* **Marcus Thorn Mathiesen**
 * **Kasper Erik Schmidt-Christensen**
 
 ## Acknowledgments
