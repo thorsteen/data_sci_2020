@@ -5,7 +5,6 @@ Dedicated to DataScience exercises and assignments.
 ## Todo
 
 * Clean content using regex
-* Write simple entity sets to .csv files 
 * Prepare relation sets
 * Make article entity set
 
