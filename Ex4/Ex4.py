@@ -25,7 +25,7 @@ def putinDic(dictionary, liste):
         dictionary[info] = ID
         ID += 1
      
-with open('news_sample.csv', newline='') as csvfile:
+with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     #initializes indexes for later extraction
     idIdx = 0
     domainIdx = 0
@@ -89,10 +89,9 @@ with open('news_sample.csv', newline='') as csvfile:
             summaryIdx = i
 
     #converts csv.reader type to 2d array
-    data = list(csv.reader(csvfile))
-    data = np.array(data)
+    data = np.array(list(csv.reader(csvfile)))
     
-    #fills authors into author dictionary
+    #fills authors into author dictionary, sort to make sure they get the same id every time the code is run
     authorList = data[:,authorIdx]
     temp = []
     for i in authorList:
@@ -100,9 +99,10 @@ with open('news_sample.csv', newline='') as csvfile:
         for j in something:
             temp.append(j)
     temp = list(set(temp))
+    temp.sort()
     putinDic(author, temp)
     
-    #fills metaKeywords into author dictionary
+    #fills metaKeywords into author dictionary, sort to make sure they get the same id every time the code is run
     tempKeywords = data[:,meta_keywordsIdx]
     keywords = []
     for words in tempKeywords:
@@ -110,19 +110,31 @@ with open('news_sample.csv', newline='') as csvfile:
         for word in temp:
             keywords.append(word)
     keywords = list(set(keywords))
+    keywords.sort()
     putinDic(keyword,keywords)
 
-    #fills domains into author dictionary
+    #fills domains into author dictionary, sort to make sure they get the same id every time the code is run
     domains = list(set(data[:,domainIdx]))
+    domains.sort()
     putinDic(domain,domains)
 
-    #fills types into author dictionary
+    #fills types into author dictionary, sort to make sure they get the same id every time the code is run
     typs = list(set(data[:,typeIdx]))
+    typs.sort()
     putinDic(typ,typs)
 
     #example of how to extract and print data from dictionaries, to be used for riding into .csv files
     for item in author.items():
         print("Author: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+    
+    for item in keyword.items():
+        print("Keyword: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+    
+    for item in domain.items():
+        print("Domain: %-35s has id: %4s" %(str(item[0]), str(item[1])))
+    
+    for item in typ.items():
+        print("Type: %-35s has id: %4s" %(str(item[0]), str(item[1])))
 
 #split csv filer op i tilsvarerende tabeller i sql database
 #Keyword(keyword_id,keyword) 
