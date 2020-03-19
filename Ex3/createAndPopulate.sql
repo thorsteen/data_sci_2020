@@ -60,11 +60,11 @@ CREATE TABLE Written_by (
   author_id integer REFERENCES Author(author_id)
 );
 
-\copy keyword       from 'Ex3/keyword_entity.csv'       delimiter','csv;
-\copy author        from 'Ex3/author_entity.csv'        delimiter','csv;
-\copy typ           from 'Ex3/type_entity.csv'          delimiter','csv;
-\copy domain        from 'Ex3/domain_entity.csv'        delimiter','csv;
-\copy article       from 'Ex3/article_entity.csv'       delimiter'^'csv;
-\copy tags          from 'Ex3/tags_relation.csv'        delimiter','csv;
-\copy written_by    from 'Ex3/writtenBy_relation.csv'   delimiter','csv;
-\copy webpage       from 'Ex3/webpage_relation.csv'     delimiter','csv;
+\copy keyword       from 'keyword_entity.csv'       delimiter','csv;
+\copy author        from 'author_entity.csv'        delimiter','csv;
+\copy typ           from 'type_entity.csv'          delimiter','csv;
+\copy domain        from 'domain_entity.csv'        delimiter','csv;
+\copy article       from 'article_entity.csv'       delimiter'^'csv;
+\copy tags          from 'tags_relation.csv'        delimiter','csv;
+\copy written_by    from 'writtenBy_relation.csv'   delimiter','csv;
+\copy webpage       from 'webpage_relation.csv'     delimiter','csv;

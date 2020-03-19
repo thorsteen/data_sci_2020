@@ -7,17 +7,8 @@ from cleantext import clean
 import re
 import numpy as np
 
-def change_date(word):
-    date_patterns = ['(\d+[-/]\d+[-/]\d+)']
-    for pattern in date_patterns:
-        try:
-            #check that the pattern can be transformed
-            re.sub(pattern, "<DATE>", word)
-        except:
-            return
-
 def clean_text(content):
-    
+
     # Set all words to be lowercased
     clean_text = content.lower()
     
@@ -71,9 +62,9 @@ def simpleEntityToCSV(filename, dictionary):
      
 with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     #This initializes the dictionary
-    author = dict()
-    domain = dict() 
-    typ = dict()
+    author  = dict()
+    domain  = dict() 
+    typ     = dict()
     keyword = dict()   
     article = dict()
 
@@ -132,28 +123,28 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
     simpleEntityToCSV("domain_entity.csv", domain)
     simpleEntityToCSV("type_entity.csv", typ)
 
-    #makes writtenby relation, and saves it as a csv file.
-    writtenByFile = open("writtenBy_relation.csv", "w+")
-    tagsFile = open("tags_relation.csv", "w+")
-    webpageFile = open("webpage_relation.csv", "w+")
-    articleFile = open("article_entity.csv", "w+", encoding="utf-8")
+    #Creates csv files for relations and article entity.
+    writtenByFile   = open("writtenBy_relation.csv", "w+", encoding="utf-8")
+    tagsFile        = open("tags_relation.csv", "w+", encoding="utf-8")
+    webpageFile     = open("webpage_relation.csv", "w+", encoding="utf-8")
+    articleFile     = open("article_entity.csv", "w+", encoding="utf-8")
 
     for row in data:
-        articleID = row[0]
-        title = row[titleIdx].lower()
-        content = clean_text(row[contentIdx])
-        summary = row[summaryIdx].lower()
-        meta_description = row[meta_descriptionIdx].lower()
-        type_id = typ[row[typeIdx].lower()]
-        scrappedAt = row[scraped_atIdx]
-        insertedAt = row[inserted_atIdx]
-        updatedAt = row[updated_atIdx]
+        articleID           = row[0] 
+        title               = row[titleIdx].lower()
+        content             = clean_text(row[contentIdx])
+        summary             = row[summaryIdx].lower()
+        meta_description    = row[meta_descriptionIdx].lower()
+        type_id             = typ[row[typeIdx].lower()]
+        scrappedAt          = row[scraped_atIdx]
+        insertedAt          = row[inserted_atIdx]
+        updatedAt           = row[updated_atIdx]
 
         articleFile.write("%s^\"%s\"^\"%s\"^\"%s\"^\"%s\"^%s^%s^%s^%s\n"%
             (articleID, title, content, summary, meta_description, type_id, scrappedAt, insertedAt, updatedAt))
 
         url = row[urlIdx].lower()
-        webpageFile.write("%s,%s,%s\n" % (url, articleID, domain[row[domainIdx].lower()]))
+        webpageFile.write("\"%s,%s,%s\n" % (url, articleID, domain[row[domainIdx].lower()]))
 
         authors = row[authorIdx]
         authors = authors.split(', ')
@@ -165,14 +156,5 @@ with open('news_sample.csv', newline='', encoding='utf8') as csvfile:
         for k in mkeywords:
             tagsFile.write("%s,%s\n" % (articleID, keyword[k.lower()]))
 
-#split csv filer op i tilsvarerende tabeller i sql database
-#Keyword(keyword_id,keyword) done 
-#Author(author_id,author_name) done 
-#Domain(domain_id, domain_url) done 
-#Type(type_id,type_name) done 
-#Article(article_id, title, content, summary, meta_description, type_id, inserted_at, updated_at, scaped_at)
-#Webpage(url,article_id,domain_id) 
-#Tags(article_id, keyword_id) 
-#Written_by(article_id,author_id) 
 #commando i post gress: https://www.postgresql.org/docs/9.2/sql-copy.html 
 
